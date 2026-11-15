@@ -639,14 +639,14 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
       var f=document.createElement('iframe');
       f.src=LEAD_FORM+q; f.title='Receber o plano de correção';
       f.setAttribute('loading','lazy');
-      f.style.cssText='width:100%;height:330px;border:none;border-radius:12px;background:#fff';
+      f.style.cssText='width:100%;height:390px;border:none;border-radius:12px;background:#fff';
       box.innerHTML=''; box.appendChild(f);
       px('AbriuFormularioWhatsApp');
     });
     window.addEventListener('message',function(e){
       if(leadSent||!/^https:\/\/link\.midasone\.com\.br$/.test(e.origin)) return;
       var d=e.data; try{ d=typeof d==='string'?d:JSON.stringify(d); }catch(x){ return; }
-      if(/submit/i.test(d||'')){ leadSent=true; try{fbq('track','Lead')}catch(x){} }
+      if(/set-sticky-contacts/.test(d||'')&&/customer_id/.test(d||'')){ leadSent=true; try{fbq('track','Lead')}catch(x){} }
     });
   }
 
