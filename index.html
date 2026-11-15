@@ -287,13 +287,9 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
     <div class="card cta lead" id="lead" hidden>
       <h2>Receber o plano de correção no WhatsApp</h2>
       <p class="lede">Opcional. A equipe MIDΛS Vision olha o seu laudo e manda o primeiro passo.</p>
-      <form id="leadForm" class="stack" novalidate>
-        <input id="nome" type="text" autocomplete="name" maxlength="80" placeholder="Seu nome" aria-label="Seu nome">
-        <input id="zap" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="WhatsApp com DDD" aria-label="WhatsApp com DDD">
-        <label class="consent"><input id="okc" type="checkbox"><span>Autorizo a MIDΛS Vision a usar meu nome, WhatsApp e o resultado deste laudo para falar comigo sobre o plano de correção, conforme a LGPD. Posso pedir a exclusão quando quiser.</span></label>
-        <button class="btn block" id="send" type="submit">Quero o plano no WhatsApp</button>
-        <div class="msg small" id="leadMsg" role="status"></div>
-      </form>
+      <label class="consent"><input id="okc" type="checkbox"><span>Autorizo a MIDΛS Vision a usar meu nome, WhatsApp e o resultado deste laudo para falar comigo sobre o plano de correção, conforme a LGPD. Posso pedir a exclusão quando quiser.</span></label>
+      <p class="small" id="leadHint" style="color:var(--muted);margin:8px 0 0">Marque a autorização para abrir o formulário.</p>
+      <div id="leadBox"></div>
     </div>
     <div class="card cta">
       <h2>Prefere falar direto?</h2>
@@ -388,8 +384,8 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-/* Destino dos contatos do WhatsApp. Vazio = bloco escondido. Ex.: webhook de entrada de um workflow do CRM (POST JSON). */
-var LEAD_ENDPOINT = '';
+/* Formulário do CRM (GoHighLevel, form "material rico"). Vazio = bloco escondido. Sem chave de API na página. */
+var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
 
 (function(){
   'use strict';
@@ -625,22 +621,32 @@ var LEAD_ENDPOINT = '';
   });
 
   /* ---------- WhatsApp opcional (nunca trava o laudo) ---------- */
-  if(LEAD_ENDPOINT){
+  if(LEAD_FORM){
     $('lead').hidden=false;
-    $('leadForm').addEventListener('submit',function(ev){
-      ev.preventDefault();
-      var msg=$('leadMsg'), digits=$('zap').value.replace(/\D/g,'');
-      msg.className='msg small';
-      if(digits.length<10||digits.length>13){ msg.className='msg small err'; msg.textContent='Confira o WhatsApp com DDD.'; return; }
-      if(!$('okc').checked){ msg.className='msg small err'; msg.textContent='Marque a autorização para a gente poder falar com você.'; return; }
-      $('send').disabled=true; msg.textContent='Enviando...';
-      var m=monthlyEst();
-      fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        nome:$('nome').value.trim(), whatsapp:digits, origem:'diagnostico.midasvision.com.br',
-        vazamento_anual:Math.round(sum(m)*12), vazamento_mensal:Math.round(sum(m)), maior_torneira:TAPS[topIdx(m)].short,
-        consentimento_lgpd:true, data:new Date().toISOString()
-      })}).then(function(r){ if(!r.ok) throw 0; msg.className='msg small ok'; msg.textContent='Recebido. A equipe MIDΛS Vision chama você no WhatsApp.'; try{fbq('track','Lead')}catch(e){} })
-      .catch(function(){ $('send').disabled=false; msg.className='msg small err'; msg.textContent='Não deu para enviar agora. Tente de novo ou mande no direct.'; });
+    var leadSent=false;
+    function laudoTxt(){
+      var m=monthlyEst(), t=sum(m);
+      return 'Raio-X do Vazamento: '+brl(t)+'/mês, '+brl(t*12)+'/ano. Maior torneira: '+TAPS[topIdx(m)].name+'. '+
+        TAPS.map(function(tp,i){return tp.name+' '+brl(m[i])+'/mês'}).join('; ')+'.';
+    }
+    $('okc').addEventListener('change',function(){
+      var box=$('leadBox');
+      if(!this.checked){ box.innerHTML=''; $('leadHint').hidden=false; return; }
+      $('leadHint').hidden=true;
+      var q='?laudo='+encodeURIComponent(laudoTxt())+
+        '&pagina='+encodeURIComponent('diagnostico.midasvision.com.br')+
+        '&consentimento_lgpd='+encodeURIComponent('Aceito em '+new Date().toLocaleString('pt-BR')+' no diagnostico.midasvision.com.br');
+      var f=document.createElement('iframe');
+      f.src=LEAD_FORM+q; f.title='Receber o plano de correção';
+      f.setAttribute('loading','lazy');
+      f.style.cssText='width:100%;height:330px;border:none;border-radius:12px;background:#fff';
+      box.innerHTML=''; box.appendChild(f);
+      px('AbriuFormularioWhatsApp');
+    });
+    window.addEventListener('message',function(e){
+      if(leadSent||!/^https:\/\/link\.midasone\.com\.br$/.test(e.origin)) return;
+      var d=e.data; try{ d=typeof d==='string'?d:JSON.stringify(d); }catch(x){ return; }
+      if(/submit/i.test(d||'')){ leadSent=true; try{fbq('track','Lead')}catch(x){} }
     });
   }
 
