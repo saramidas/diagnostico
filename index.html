@@ -154,6 +154,9 @@ p{margin:0 0 12px}
 .hi .tx span{font-size:13px;color:var(--muted)}
 .chart{display:flex;align-items:flex-end;gap:5px;height:110px;margin-top:12px;padding-top:6px}
 .chart div{flex:1;border-radius:6px 6px 3px 3px;background:var(--soft);position:relative;min-height:4px}
+.txt{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;font-size:17px;font-weight:600;background:var(--card);color:var(--navy);min-height:52px}
+.txt:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,168,61,.25)}
+.txt::placeholder{color:#A9A69C;font-weight:500}
 .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin:10px 0}
 .consent input{margin-top:2px;width:20px;height:20px;accent-color:var(--navy);flex:none}
 .foot{text-align:center;color:var(--muted);font-size:12px;margin:28px 0 8px}
@@ -180,7 +183,7 @@ p{margin:0 0 12px}
 
   <!-- INÍCIO -->
   <section id="s-home">
-    <span class="pill">Para donos de clínica · 2 min por dia</span>
+    <span class="pill" id="homePill">Para donos de clínica · 2 min por dia</span>
     <h1 id="homeH">Quanto a sua clínica deixou na mesa hoje?</h1>
     <p class="lede" id="homeP">Feche o dia em 4 telas de toques e receba a nota da clínica, o furo que mais pesou e a mensagem pronta para cobrar a equipe amanhã.</p>
 
@@ -215,9 +218,23 @@ p{margin:0 0 12px}
 
   <!-- AJUSTES (1ª vez) -->
   <section id="s-setup" hidden>
-    <div class="steplabel">Antes do primeiro fechamento</div>
-    <h2 style="margin-top:6px">Três respostas para o diagnóstico sair em reais</h2>
-    <p class="lede">Uma vez só. Dá para mudar depois em Meus dias.</p>
+    <div class="steplabel" id="setupKicker">Antes do primeiro fechamento</div>
+    <h2 style="margin-top:6px">Conte um pouco da sua clínica</h2>
+    <p class="lede">Assim a nota, os valores e as mensagens saem com a cara da sua clínica. Uma vez só, e tudo fica só neste celular.</p>
+    <div class="q">
+      <label class="t" for="cfgNome">Como se chama a clínica?</label>
+      <div class="h">Opcional.</div>
+      <input class="txt" id="cfgNome" data-cfgtext="nome" type="text" maxlength="40" autocomplete="organization" placeholder="Ex.: Clínica Sorriso">
+    </div>
+    <div class="q">
+      <label class="t">Qual é a especialidade?</label>
+      <div class="chips" data-cfgchip="esp" data-opts="Odontologia,Estética,Dermatologia,Fisioterapia,Psicologia,Outra"></div>
+    </div>
+    <div class="q">
+      <label class="t" for="cfgDia">Quantos atendimentos ficam marcados num dia normal?</label>
+      <div class="h">Somando todos os profissionais. Vira o número inicial de cada fechamento.</div>
+      <div class="stepper" data-cfgnum="dia"><button type="button" data-d="-1" aria-label="Menos">−</button><input id="cfgDia" type="number" inputmode="numeric" min="1" max="300"><button type="button" data-d="1" aria-label="Mais">+</button></div>
+    </div>
     <div class="q">
       <label class="t">Quanto vale, em média, uma consulta ou sessão?</label>
       <div class="h">O que a clínica recebe por um horário atendido.</div>
@@ -234,6 +251,18 @@ p{margin:0 0 12px}
       <label class="t">De cada 10 pessoas novas que chamam, quantas agendam?</label>
       <div class="h">Pelo que você vê hoje. Na dúvida, fique com 3.</div>
       <div class="chips" data-cfg="conv" data-opts="1,2,3,4,5,6" data-sm="1"></div>
+    </div>
+    <div class="q">
+      <label class="t">Quem é quem na equipe?</label>
+      <div class="h">Opcional. As mensagens para a equipe já saem com o nome certo.</div>
+      <label class="small" for="cfgRec" style="display:block;margin:4px 0 6px;font-weight:700;color:var(--navy)">Quem cuida da agenda e do WhatsApp</label>
+      <input class="txt" id="cfgRec" data-cfgtext="rec" type="text" maxlength="30" autocomplete="off" placeholder="Ex.: Ana">
+      <label class="small" for="cfgOrc" style="display:block;margin:12px 0 6px;font-weight:700;color:var(--navy)">Quem apresenta e acompanha os orçamentos</label>
+      <input class="txt" id="cfgOrc" data-cfgtext="orc" type="text" maxlength="30" autocomplete="off" placeholder="Ex.: Dra. Paula">
+    </div>
+    <div class="card" style="background:var(--ivory);box-shadow:none">
+      <div class="kicker">Com esses dados</div>
+      <p id="cfgPreview" style="margin:0;font-weight:600"></p>
     </div>
   </section>
 
@@ -326,9 +355,9 @@ p{margin:0 0 12px}
     </div>
     <div class="hist" id="hList"></div>
     <div class="card">
-      <div class="kicker">Ajustes</div>
+      <div class="kicker">Sua clínica</div>
       <p class="small" id="hCfg"></p>
-      <button class="btn ghost" id="hSetup" type="button">Mudar valores</button>
+      <button class="btn ghost" id="hSetup" type="button">Editar dados da clínica</button>
       <button class="link" id="hReset" type="button" style="color:var(--bad)">Apagar meus dados deste celular</button>
     </div>
   </section>
@@ -364,11 +393,17 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   var KEY='midas-fechamento-v1';
   var S=null;
   try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
-  if(!S||typeof S!=='object'){ S={cfg:{consulta:300,orcamento:1500,conv:3},setup:false,days:{},flags:{}};
+  if(!S||typeof S!=='object'){ S={cfg:{consulta:250,orcamento:1500,conv:3},setup:false,days:{},flags:{}};
     try{ var old=JSON.parse(localStorage.getItem('midas-raiox-v2')||'null'); if(old&&old.cfg){ if(old.cfg.cns) S.cfg.consulta=Math.round(old.cfg.cns); if(old.cfg.tic) S.cfg.orcamento=Math.round(old.cfg.tic); } }catch(e){}
   }
   S.cfg=S.cfg||{}; S.days=S.days||{}; S.flags=S.flags||{};
-  ['consulta','orcamento','conv'].forEach(function(k){ if(typeof S.cfg[k]!=='number'||!(S.cfg[k]>0)) S.cfg[k]={consulta:300,orcamento:1500,conv:3}[k]; });
+  ['consulta','orcamento','conv','dia'].forEach(function(k){ if(typeof S.cfg[k]!=='number'||!(S.cfg[k]>0)) S.cfg[k]={consulta:250,orcamento:1500,conv:3,dia:10}[k]; });
+  ['nome','esp','rec','orc'].forEach(function(k){ if(typeof S.cfg[k]!=='string') S.cfg[k]=''; });
+  function clean(s){ return String(s||'').replace(/[<>\\]/g,'').replace(/\s+/g,' ').trim(); }
+  function T(){ var e=S.cfg.esp; return {pac:e==='Estética'?'cliente':'paciente',pacs:e==='Estética'?'clientes':'pacientes'}; }
+  function clin(){ return clean(S.cfg.nome); }
+  function aClin(){ var n=clin(); return n?'a '+n:'a sua clínica'; }
+  function hi(k){ var n=clean(S.cfg[k]); return n?n+', ':'Time, '; }
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
   /* ---------- Datas ---------- */
@@ -384,7 +419,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   /* ---------- Perguntas ---------- */
   var STEPS=[
     {id:'ag',label:'1 de 4 · Agenda',title:'Como foi a agenda?',sub:'Conte os horários de hoje, com retorno e avaliação.',
-      qs:[{k:'mar',t:'Quantos pacientes estavam marcados?',type:'num'},
+      qs:[{k:'mar',t:function(){return 'Quantos '+T().pacs+' estavam marcados?'},type:'num'},
           {k:'vei',t:'Quantos vieram?',type:'num',max:'mar',show:function(d){return d.mar>0}},
           {k:'rem',t:function(d){var f=d.mar-d.vei;return 'Das '+f+' '+plural(f,'falta','faltas')+', quantas já voltaram para a agenda?'},h:'Remarcadas ou com horário oferecido e aceito.',type:'num',max:function(d){return d.mar-d.vei},show:function(d){return d.mar>0&&d.mar-d.vei>0}}]},
     {id:'re',label:'2 de 4 · Quem chamou',title:'Quem chamou hoje?',sub:'Pessoas novas no WhatsApp, Instagram ou telefone.',
@@ -403,8 +438,8 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   var view='home', step=0, curKey=key(new Date()), D=null, fromSetup=false;
 
   function blank(){
-    var prev=lastBefore(curKey), b={mar:0,vei:0,rem:0,con:0,sem:0,apr:0,fec:0,ret:0,conf:-1,vag:-1};
-    if(prev){ b.mar=S.days[prev].mar||0; b.vei=b.mar; }
+    var prev=lastBefore(curKey), b={mar:S.cfg.dia||10,vei:S.cfg.dia||10,rem:0,con:0,sem:0,apr:0,fec:0,ret:0,conf:-1,vag:-1};
+    if(prev&&!S.cfg.dia){ b.mar=S.days[prev].mar||10; b.vei=b.mar; }
     return b;
   }
   function lastBefore(k){ var ks=Object.keys(S.days).filter(function(x){return x<k}).sort(); return ks.length?ks[ks.length-1]:null; }
@@ -442,24 +477,24 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
     var f=r.faltasAbertas, vag=[0,1,2,3][d.vag]||0;
     switch(r.weak){
       case 'ag': return {dt:f+' '+plural(f,'falta ficou','faltas ficaram')+' sem volta para a agenda',
-        dg:'Horário vazio que ninguém tenta encher vira prejuízo fixo. Hoje isso foi '+brl(r.lostAg)+'.',
-        st:'Remarcar as faltas até as 10h', sg:'Amanhã cedo, quem cuida da agenda liga para quem faltou e oferece dois horários na mesma ligação.',
-        msg:'Bom dia, time! Hoje até as 10h quero '+(f===1?'a falta de ontem remarcada':'as '+f+' faltas de ontem remarcadas')+'. Liguem, ofereçam dois horários e me avisem quando fecharem.',
+        dg:'Horário vazio que ninguém tenta encher vira prejuízo fixo. Hoje isso custou '+brl(r.lostAg)+'.',
+        st:'Remarcar as faltas até as 10h', sg:'Amanhã cedo, '+(clean(S.cfg.rec)||'quem cuida da agenda')+' liga para quem faltou e oferece dois horários na mesma ligação.',
+        msg:hi('rec')+'até as 10h da manhã quero '+(f===1?'a falta que ficou sem horário remarcada':'as '+f+' faltas que ficaram sem horário remarcadas')+(clean(S.cfg.rec)?'. Liga, oferece dois horários na mesma ligação e me avisa quando fechar.':'. Liguem, ofereçam dois horários na mesma ligação e me avisem quando fecharem.'),
         focus:'remarcar '+f+' '+plural(f,'falta','faltas')+' até as 10h'};
       case 're': return {dt:d.sem+' de '+d.con+' '+plural(d.con,'pessoa ficou','pessoas ficaram')+' sem resposta',
         dg:'Quem pergunta preço ou horário e espera costuma agendar com quem respondeu primeiro. Pela sua conta, isso vale cerca de '+brl(r.lostRe)+'.',
-        st:'Zerar as conversas antes do primeiro paciente', sg:'Amanhã, antes de abrir a agenda, a recepção responde todo mundo que ficou sem resposta e chama para agendar.',
-        msg:'Bom dia, time! Antes do primeiro paciente, respondam '+(d.sem===1?'a pessoa que ficou':'as '+d.sem+' pessoas que ficaram')+' sem resposta ontem e chamem para agendar. Me mandem quantas marcaram.',
+        st:'Zerar as conversas antes do primeiro paciente', sg:'Amanhã, antes de abrir a agenda, '+(clean(S.cfg.rec)||'a recepção')+' responde todo mundo que ficou sem resposta e chama para agendar.',
+        msg:hi('rec')+'antes do primeiro '+T().pac+' responda'+(clean(S.cfg.rec)?'':'m')+' '+(d.sem===1?'a pessoa que ficou':'as '+d.sem+' pessoas que ficaram')+' sem resposta e '+(clean(S.cfg.rec)?'chame':'chamem')+' para agendar. '+(clean(S.cfg.rec)?'Me manda':'Me mandem')+' quantas marcaram.',
         focus:'responder '+d.sem+' '+plural(d.sem,'conversa parada','conversas paradas')};
       case 'or': return {dt:r.semPasso+' '+plural(r.semPasso,'orçamento saiu','orçamentos saíram')+' sem dia de retorno',
         dg:'Sem data marcada, o "vou pensar" esfria. São '+brl(r.risk)+' esperando alguém ligar.',
-        st:'Todo orçamento sai da sala com dia marcado', sg:'Defina quem é o dono de cada orçamento aberto e o dia da próxima conversa. Os de hoje recebem ligação amanhã.',
-        msg:'Time, a partir de hoje nenhum orçamento sai da sala sem dia marcado para o retorno. '+(r.semPasso===1?'O de ontem':'Os '+r.semPasso+' de ontem')+': liguem hoje, tirem a dúvida e marquem a próxima conversa. Quem fica com cada um?',
+        st:'Todo orçamento sai da sala com dia marcado', sg:(clean(S.cfg.orc)?clean(S.cfg.orc)+' fica com os orçamentos abertos e marca o dia da próxima conversa de cada um.':'Defina quem é o dono de cada orçamento aberto e o dia da próxima conversa.')+' Os de hoje recebem ligação amanhã.',
+        msg:hi('orc')+'a partir de hoje nenhum orçamento sai da sala sem dia marcado para o retorno. '+(r.semPasso===1?'O que ficou em aberto':'Os '+r.semPasso+' que ficaram em aberto')+(clean(S.cfg.orc)?': liga até amanhã, tira a dúvida e marca a próxima conversa. Me avisa quando estiver feito.':': liguem até amanhã, tirem a dúvida e marquem a próxima conversa. Quem fica com cada um?'),
         focus:'dar retorno a '+r.semPasso+' '+plural(r.semPasso,'orçamento','orçamentos')};
       case 'am': return {dt:'A agenda de amanhã ainda não está confirmada',
         dg:'É assim que a falta de amanhã começa hoje.'+(vag>0?' E tem '+(vag>=3?'3 ou mais horários vagos':vag+' '+plural(vag,'horário vago','horários vagos'))+' sem ninguém para ocupar.':''),
-        st:'Confirmar amanhã antes de ir embora', sg:'Antes de fechar a clínica, a recepção confirma todos de amanhã'+(vag>0?' e oferece os horários vagos para quem quer antecipar':'')+'.',
-        msg:'Time, antes de irem embora: confirmem todos os pacientes de amanhã'+(vag>0?' e ofereçam os horários vagos para quem está esperando encaixe':'')+'. Me mandem um ok quando a agenda estiver fechada.',
+        st:'Confirmar amanhã antes de ir embora', sg:'Antes de fechar a clínica, '+(clean(S.cfg.rec)||'a recepção')+' confirma todos de amanhã'+(vag>0?' e oferece os horários vagos para quem quer antecipar':'')+'.',
+        msg:(clean(S.cfg.rec)?hi('rec')+'antes de ir embora: confirma todos os '+T().pacs+' de amanhã'+(vag>0?' e oferece os horários vagos para quem está esperando encaixe':'')+'. Me manda um ok quando a agenda estiver fechada.':'Time, antes de irem embora: confirmem todos os '+T().pacs+' de amanhã'+(vag>0?' e ofereçam os horários vagos para quem está esperando encaixe':'')+'. Me mandem um ok quando a agenda estiver fechada.'),
         focus:'confirmar a agenda antes de sair'};
       default: return {dt:'Dia redondo',ok:true,
         dg:'Agenda aproveitada, conversas respondidas e orçamentos com próximo passo. É isso que vira previsibilidade.',
@@ -486,7 +521,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   /* ---------- Render ---------- */
   var mainBtn=$('mainBtn'), altBtn=$('altBtn'), backBtn=$('backBtn');
   function show(v){
-    view=v; ['home','setup','step','result','hist'].forEach(function(x){ $('s-'+x).hidden=(x!==v); });
+    view=v; ['home','setup','step','result','hist'].forEach(function(x){ $('s-'+x).hidden=(x!==v); }); document.querySelector('.foot').hidden=(v==='step'||v==='setup');
     window.scrollTo(0,0);
   }
   function setDock(label,alt,back,enabled){
@@ -496,6 +531,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
 
   function renderHome(){
     show('home');
+    if(clin()) $('homePill').textContent=clin()+(S.cfg.esp&&S.cfg.esp!=='Outra'?' · '+S.cfg.esp:'');
     var tk=key(new Date()), yk=key(addDays(new Date(),-1)), ks=Object.keys(S.days).sort();
     if(ks.length){
       var lk=ks[ks.length-1], l=S.days[lk];
@@ -513,8 +549,22 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
     }
   }
 
+  function cfgPreview(){
+    var n=clin(), d=S.cfg.dia, c=S.cfg.consulta;
+    $('cfgPreview').textContent=(n?n+': cada':'Cada')+' falta que não volta para a agenda custa '+brl(c)+', cada orçamento parado deixa '+brl(S.cfg.orcamento)+' em risco e um dia cheio vale cerca de '+brl(d*c)+'.';
+  }
   function renderSetup(){
-    show('setup'); setDock('Começar o fechamento',null,true);
+    show('setup'); setDock(fromSetup==='hist'?'Salvar':'Começar o fechamento',fromSetup==='hist'?null:'Pular e usar valores padrão',true);
+    $('setupKicker').textContent=fromSetup==='hist'?'Ajustes':'Antes do primeiro fechamento';
+    document.querySelectorAll('#s-setup [data-cfgtext]').forEach(function(inp){ var k=inp.getAttribute('data-cfgtext'); inp.value=S.cfg[k]||'';
+      inp.oninput=function(){ S.cfg[k]=clean(inp.value).slice(0,40); save(); cfgPreview(); }; });
+    document.querySelectorAll('#s-setup [data-cfgchip]').forEach(function(box){ var k=box.getAttribute('data-cfgchip'), opts=box.getAttribute('data-opts').split(',');
+      box.innerHTML=opts.map(function(o){ return '<button type="button" class="chip'+(S.cfg[k]===o?' on':'')+'" data-v="'+o+'">'+o+'</button>'; }).join('');
+      box.onclick=function(e){ var b=e.target.closest('.chip'); if(!b) return; box.querySelectorAll('.chip').forEach(function(c){c.classList.toggle('on',c===b)}); S.cfg[k]=b.getAttribute('data-v'); save(); }; });
+    document.querySelectorAll('#s-setup [data-cfgnum]').forEach(function(st){ var k=st.getAttribute('data-cfgnum'), inp=st.querySelector('input'); inp.value=S.cfg[k];
+      inp.oninput=function(){ var v=Math.max(1,Math.min(300,parseInt(inp.value,10)||0)); if(parseInt(inp.value,10)>0){ S.cfg[k]=v; save(); cfgPreview(); } };
+      st.onclick=function(e){ var b=e.target.closest('button'); if(!b) return; S.cfg[k]=Math.max(1,Math.min(300,S.cfg[k]+(+b.getAttribute('data-d')))); inp.value=S.cfg[k]; save(); cfgPreview(); }; });
+    cfgPreview();
     document.querySelectorAll('#s-setup [data-cfg]').forEach(function(box){
       var k=box.getAttribute('data-cfg'), opts=box.getAttribute('data-opts').split(',').map(Number), sm=box.getAttribute('data-sm');
       var other=document.querySelector('[data-other="'+k+'"]');
@@ -522,11 +572,11 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
       box.innerHTML=opts.map(function(o){ return '<button type="button" class="chip'+(sm?' sm':'')+(S.cfg[k]===o?' on':'')+'" data-v="'+o+'">'+(k==='conv'?o:brl(o))+'</button>'; }).join('')+
         (other?'<button type="button" class="chip'+(isOther?' on':'')+'" data-v="x">Outro valor</button>':'');
       if(other){ other.hidden=!isOther; var inp=other.querySelector('input'); inp.value=S.cfg[k];
-        inp.oninput=function(){ var v=Math.max(0,parseInt(inp.value,10)||0); if(v>0){ S.cfg[k]=v; save(); } }; }
+        inp.oninput=function(){ var v=Math.max(0,parseInt(inp.value,10)||0); if(v>0){ S.cfg[k]=v; save(); cfgPreview(); } }; }
       box.onclick=function(e){ var b=e.target.closest('.chip'); if(!b) return; var v=b.getAttribute('data-v');
         box.querySelectorAll('.chip').forEach(function(c){c.classList.toggle('on',c===b)});
         if(v==='x'){ other.hidden=false; other.querySelector('input').focus(); return; }
-        if(other) other.hidden=true; S.cfg[k]=+v; save(); };
+        if(other) other.hidden=true; S.cfg[k]=+v; save(); cfgPreview(); };
     });
   }
 
@@ -565,15 +615,16 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   $('stepBody').addEventListener('click',function(e){
     var b=e.target.closest('button'); if(!b) return; var q=b.closest('.q'), k=q.getAttribute('data-k'), st=STEPS[step];
     var def=st.qs.filter(function(x){return x.k===k})[0];
-    if(b.hasAttribute('data-d')){ D[k]=Math.max(0,Math.min(qMax(def),(D[k]||0)+(+b.getAttribute('data-d')))); if(navigator.vibrate) try{navigator.vibrate(8)}catch(x){} rerenderKeepFocus(); }
+    if(b.hasAttribute('data-d')){ var om=D.mar; D[k]=Math.max(0,Math.min(qMax(def),(D[k]||0)+(+b.getAttribute('data-d')))); followMar(k,om); if(navigator.vibrate) try{navigator.vibrate(8)}catch(x){} rerenderKeepFocus(); }
     if(b.hasAttribute('data-i')){ D[k]=+b.getAttribute('data-i'); renderStep(); }
   });
   $('stepBody').addEventListener('input',function(e){
     var inp=e.target; if(inp.tagName!=='INPUT') return; var k=inp.closest('.q').getAttribute('data-k');
     var def=STEPS[step].qs.filter(function(x){return x.k===k})[0];
-    var v=Math.max(0,parseInt(inp.value,10)||0); D[k]=Math.min(v,qMax(def));
+    var om=D.mar, v=Math.max(0,parseInt(inp.value,10)||0); D[k]=Math.min(v,qMax(def)); followMar(k,om);
     clearTimeout(inp._t); inp._t=setTimeout(rerenderKeepFocus,450); updateLive();
   });
+  function followMar(k,om){ if(k==='vei') D._vt=1; if(k==='mar'&&!D._vt&&D.vei===Math.min(om,D.vei)&&D.vei===om) D.vei=D.mar; }
   function rerenderKeepFocus(){
     var a=document.activeElement, id=a&&a.id, y=window.scrollY; renderStep(); window.scrollTo(0,y);
     if(id&&$(id)&&a.tagName==='INPUT'){ var el=$(id); el.focus(); try{ el.setSelectionRange(el.value.length,el.value.length);}catch(x){} }
@@ -591,7 +642,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
 
   function renderResult(k){
     show('result'); curKey=k; var d=S.days[k]; D=JSON.parse(JSON.stringify(d)); var r=calc(d), a=advice(d,r);
-    $('rWhen').textContent='Fechamento · '+nice(k);
+    $('rWhen').textContent=(clin()||'Fechamento')+' · '+nice(k);
     var ring=$('rRing'); ring.style.setProperty('--c',toneVar(r.score)); ring.style.setProperty('--v',0); $('rScore').textContent='0';
     var t0=null, dur=700; (function an(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/dur), v=Math.round(r.score*(1-Math.pow(1-p,3)));
       $('rScore').textContent=v; ring.style.setProperty('--v',v); if(p<1) requestAnimationFrame(an); })(performance.now());
@@ -614,7 +665,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
     $('rWeek').innerHTML=weekHTML();
     var n=Object.keys(S.days).length;
     $('rHabit').textContent=n<5?'Com 5 fechamentos, eu mostro o furo que mais se repete na sua clínica. Faltam '+(5-n)+'.':'Você já tem '+n+' fechamentos. Veja o furo que mais se repete em Meus dias.';
-    var sum='Fechamento do dia · '+nice(k)+'\nNota: '+r.score+' ('+verdict(r.score)+')\nFicou na mesa: '+brl(r.lost)+'\nEm risco: '+brl(r.risk)+'\nFoco de amanhã: '+a.focus+'\n\nFeito em diagnostico.midasvision.com.br';
+    var sum='Fechamento do dia'+(clin()?' · '+clin():'')+' · '+nice(k)+'\nNota: '+r.score+' ('+verdict(r.score)+')\nFicou na mesa: '+brl(r.lost)+'\nEm risco: '+brl(r.risk)+'\nFoco de amanhã: '+a.focus+'\n\nFeito em diagnostico.midasvision.com.br';
     $('rShare').href='https://wa.me/?text='+encodeURIComponent(sum);
     $('lead').hidden=!LEAD_FORM; if(!$('okc').checked){ $('leadBox').innerHTML=''; $('leadHint').hidden=false; }
     setDock('Pronto',null,false); $('dock').hidden=true;
@@ -640,10 +691,10 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
     }
     $('hList').innerHTML=ks.slice(0,30).map(function(k){ var x=S.days[k];
       return '<button class="hi" type="button" data-k="'+k+'"><span class="sc" style="background:'+toneVar(x.score)+'">'+x.score+'</span><span class="tx"><b>'+nice(k)+'</b><span>'+verdict(x.score)+' · na mesa '+brl(x.lost)+'</span></span></button>'; }).join('');
-    $('hCfg').textContent='Consulta '+brl(S.cfg.consulta)+' · Orçamento '+brl(S.cfg.orcamento)+' · '+S.cfg.conv+' de cada 10 que chamam agendam.';
+    $('hCfg').textContent=(clin()?clin()+' · ':'')+(S.cfg.esp?S.cfg.esp+' · ':'')+S.cfg.dia+' atendimentos por dia · Consulta '+brl(S.cfg.consulta)+' · Orçamento '+brl(S.cfg.orcamento)+' · '+S.cfg.conv+' de cada 10 que chamam agendam.';
   }
   $('hList').addEventListener('click',function(e){ var b=e.target.closest('.hi'); if(b) renderResult(b.getAttribute('data-k')); });
-  $('hSetup').onclick=function(){ fromSetup='hist'; renderSetup(); mainBtn.textContent='Salvar'; };
+  $('hSetup').onclick=function(){ fromSetup='hist'; renderSetup(); };
   $('hReset').onclick=function(){ if(confirm('Apagar todos os fechamentos e ajustes deste celular?')){ try{localStorage.removeItem(KEY)}catch(e){} location.reload(); } };
 
   /* ---------- Navegação ---------- */
@@ -656,10 +707,10 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
   }
   mainBtn.onclick=function(){
     if(view==='home'||view==='hist'){ startClose(key(new Date())); return; }
-    if(view==='setup'){ S.setup=true; save(); if(fromSetup==='hist'){ renderHist(); toast('Valores salvos'); return; } step=0; D=D||blank(); renderStep(); px('FechamentoIniciado'); return; }
+    if(view==='setup'){ S.setup=true; save(); px('ClinicaConfigurada',{nome:!!clin(),equipe:!!(clean(S.cfg.rec)||clean(S.cfg.orc))}); if(fromSetup==='hist'){ renderHist(); toast('Dados da clínica salvos'); return; } step=0; D=S.days[curKey]?JSON.parse(JSON.stringify(S.days[curKey])):blank(); renderStep(); px('FechamentoIniciado'); return; }
     if(view==='step'){ if(step<3){ step++; renderStep(); } else finish(); }
   };
-  altBtn.onclick=function(){ startClose(key(addDays(new Date(),-1))); };
+  altBtn.onclick=function(){ if(view==='setup'){ S.setup=true; save(); step=0; D=S.days[curKey]?JSON.parse(JSON.stringify(S.days[curKey])):blank(); renderStep(); px('FechamentoIniciado'); return; } startClose(key(addDays(new Date(),-1))); };
   backBtn.onclick=function(){
     if(view==='step'&&step>0){ step--; renderStep(); return; }
     if(view==='setup'&&fromSetup==='hist'){ renderHist(); return; }
@@ -702,7 +753,7 @@ var LEAD_FORM = 'https://link.midasone.com.br/widget/form/i14jb0oAcBvEkaJOCY1r';
       var top=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]})[0];
       return 'Fechamento do dia: '+ks.length+' '+plural(ks.length,'dia fechado','dias fechados')+', nota média '+avg+', na mesa '+brl(lost)+
         ', em risco no último dia '+brl(risk)+'. Furo que mais se repete: '+(top?SEC[top].name:'nenhum')+
-        '. Último: '+nice(ks[0])+' nota '+S.days[ks[0]].score+'. Valores: consulta '+brl(S.cfg.consulta)+', orçamento '+brl(S.cfg.orcamento)+'.';
+        '. Último: '+nice(ks[0])+' nota '+S.days[ks[0]].score+'. Clínica: '+(clin()||'sem nome')+(S.cfg.esp?' ('+S.cfg.esp+')':'')+', '+S.cfg.dia+' atendimentos por dia. Valores: consulta '+brl(S.cfg.consulta)+', orçamento '+brl(S.cfg.orcamento)+'.';
     }
     $('okc').addEventListener('change',function(){
       var box=$('leadBox');
