@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Raio-X do Vazamento · MIDΛS Vision</title>
+<meta name="description" content="Descubra em 1 minuto quanto a sua clínica perde por ano e acompanhe, dia a dia, o que escapa com faltas, orçamentos parados e mensagens sem resposta.">
+<meta name="theme-color" content="#141C2B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="MIDΛS Vision">
+<meta property="og:title" content="Raio-X do Vazamento: quanto a sua clínica perde por ano?">
+<meta property="og:description" content="Diagnóstico gratuito em 1 minuto e um painel de bolso para fechar as torneiras todo dia.">
+<meta property="og:url" content="https://diagnostico.midasvision.com.br/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141C2B'/%3E%3Cpath d='M18 50 32 14 46 50' fill='none' stroke='%23E3B94F' stroke-width='7' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141C2B'/%3E%3Cpath d='M18 50 32 14 46 50' fill='none' stroke='%23E3B94F' stroke-width='7' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Raio-X MIDΛS">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+
+<!-- Meta Pixel: Pixel Midas Vision -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','931376273352266');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=931376273352266&ev=PageView&noscript=1"></noscript>
+
+<style>
+:root{
+  --bg:#F3F5F8; --panel:#FFFFFF; --ink:#141C2B; --muted:#5A6577; --line:#DCE1E9; --soft:#EEF1F5;
+  --gold:#A87A12; --gold-ink:#141C2B; --gold-soft:#F4E6C2; --leak:#B4462F; --leak-soft:#F8E4DF; --ok:#2F7A55; --ok-soft:#E1F1E8;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --nav-h:64px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0D1420; --panel:#151F2F; --ink:#EEF1F6; --muted:#9AA6B8; --line:#26334A; --soft:#1B2638;
+  --gold:#E3B94F; --gold-soft:#2C2614; --leak:#E8806A; --leak-soft:#3A211C; --ok:#6CC59A; --ok-soft:#173226; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0D1420; --panel:#151F2F; --ink:#EEF1F6; --muted:#9AA6B8; --line:#26334A; --soft:#1B2638;
+  --gold:#E3B94F; --gold-soft:#2C2614; --leak:#E8806A; --leak-soft:#3A211C; --ok:#6CC59A; --ok-soft:#173226; color-scheme:dark }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.app{max-width:520px;margin:0 auto;min-height:100dvh;padding:max(18px, env(safe-area-inset-top,0px)) 16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom,0px))}
+.app.nonav{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.brand{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:12px;color:var(--gold);text-transform:uppercase}
+.chip-date{font-size:12.5px;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.4vw,34px);line-height:1.08;margin:0 0 8px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:18px;margin:0;line-height:1.25;text-wrap:balance}
+.lede{color:var(--muted);margin:0}
+.small{font-size:13px;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+
+/* Wizard */
+.progress{display:flex;gap:6px;margin:4px 0 16px}
+.progress span{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.progress span.on{background:var(--gold)}
+.q{display:flex;flex-direction:column;gap:8px}
+.q label,.q .lbl{font-weight:600;font-size:14.5px}
+.q .help{font-size:12.5px;color:var(--muted);margin-top:-4px}
+.money{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:12px;padding:0 14px;background:var(--bg);height:54px}
+.money:focus-within{border-color:var(--gold)}
+.money span{font-family:var(--display);font-weight:700;color:var(--muted)}
+.money input{border:0;background:transparent;font-family:var(--display);font-weight:700;font-size:22px;width:100%;outline:none;font-variant-numeric:tabular-nums;min-width:0}
+.stepper{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);height:54px;overflow:hidden}
+.stepper button{height:100%;border:0;background:transparent;font-size:24px;font-weight:600;color:var(--ink)}
+.stepper button:active{background:var(--soft)}
+.stepper input{border:0;background:transparent;text-align:center;font-family:var(--display);font-weight:700;font-size:22px;width:100%;outline:none;font-variant-numeric:tabular-nums;min-width:0}
+.stepper .unit{font-size:12px;color:var(--muted);display:block;text-align:center;margin-top:-6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:9px 14px;font-weight:600;font-size:14px;min-height:42px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.est{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:5}
+.est .in{max-width:520px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.est .val{flex:1;min-width:0}
+.est .val small{display:block;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.est .val b{font-family:var(--display);font-size:20px;color:var(--leak);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:600;background:var(--ink);color:var(--panel);border:0;border-radius:12px;padding:0 18px;min-height:50px;white-space:nowrap}
+.btn.block{display:flex;width:100%}
+.btn.gold{background:var(--gold);color:#141C2B}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.link{background:transparent;color:var(--muted);min-height:40px;padding:0 6px;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+/* Laudo */
+.big{font-family:var(--display);font-weight:800;font-size:clamp(38px,12vw,56px);line-height:1;color:var(--leak);font-variant-numeric:tabular-nums;margin:10px 0 4px}
+canvas{display:block;width:100%;height:80px;margin-top:10px}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar .l{display:flex;justify-content:space-between;gap:10px;font-size:13.5px}
+.bar .l b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.track{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:4px}
+.fill{height:100%;background:var(--gold);border-radius:6px;transition:width .35s ease}
+.bar.top .fill{background:var(--leak)}
+.tip{border-left:3px solid var(--ok);padding:2px 0 2px 12px}
+.tip .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);font-weight:700}
+.tip p{margin:4px 0 0}
+.gain{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ok);font-variant-numeric:tabular-nums}
+
+/* Hoje */
+.daybar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.daybar button{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel);font-size:20px}
+.daybar button[disabled]{opacity:.35;cursor:default}
+.daybar .d{text-align:center;flex:1}
+.daybar .d b{font-family:var(--display);font-size:17px;display:block}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero .box{border-radius:14px;padding:14px}
+.hero .box small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.hero .box b{font-family:var(--display);font-size:clamp(22px,6.6vw,28px);font-variant-numeric:tabular-nums;display:block;margin-top:2px;white-space:nowrap}
+.hero .leak{background:var(--leak-soft)} .hero .leak b{color:var(--leak)}
+.hero .save{background:var(--ok-soft)} .hero .save b{color:var(--ok)}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:12px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;border-radius:9px;min-height:42px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.counter{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.counter:first-child{border-top:0;padding-top:4px}
+.counter .t{font-weight:600}
+.counter .s{font-size:12.5px;color:var(--muted)}
+.counter .ctl{display:flex;align-items:center;gap:6px}
+.counter .ctl button{width:48px;height:48px;border-radius:14px;border:1.5px solid var(--line);background:var(--panel);font-size:24px;font-weight:600;line-height:1}
+.counter .ctl button.plus{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.mode-save .counter .ctl button.plus{background:var(--ok);border-color:var(--ok);color:#fff}
+.counter .ctl output{min-width:34px;text-align:center;font-family:var(--display);font-weight:800;font-size:22px;font-variant-numeric:tabular-nums}
+.bump{animation:bump .25s ease}
+@keyframes bump{50%{transform:scale(1.18)}}
+.action{background:var(--gold-soft);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.action .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.action p{margin:0;font-weight:500}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;min-height:44px}
+.check input{width:22px;height:22px;accent-color:var(--ok)}
+
+/* Histórico */
+.totals{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.totals .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.totals small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.totals b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums;display:block;white-space:nowrap}
+.totals .r{color:var(--leak)} .totals .g{color:var(--ok)}
+.chart{display:flex;align-items:flex-end;gap:4px;height:120px;padding-top:6px}
+.chart .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;height:100%;min-width:0}
+.chart .c i{display:block;width:100%;border-radius:4px 4px 0 0;background:var(--leak);min-height:2px}
+.chart .c i.g{background:var(--ok);border-radius:0 0 4px 4px;opacity:.85}
+.chart .c em{font-style:normal;font-size:10px;color:var(--muted)}
+.chart .c.today em{color:var(--ink);font-weight:700}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--leak)}
+.legend span.g::before{background:var(--ok)}
+.streak{display:flex;align-items:center;gap:12px}
+.streak b{font-family:var(--display);font-size:30px;color:var(--gold)}
+
+/* Nav */
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+.nav .in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);height:var(--nav-h)}
+.nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}
+.nav button svg{width:22px;height:22px}
+.nav button[aria-current="page"]{color:var(--ink)}
+.nav button[aria-current="page"] svg{color:var(--gold)}
+
+.cta{display:flex;flex-direction:column;gap:10px}
+.handle{font-family:var(--display);font-weight:700;color:var(--gold)}
+textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink);resize:none}
+.ok-msg{font-size:13px;color:var(--ok);min-height:1.2em}
+.lead input[type=text],.lead input[type=tel]{width:100%;font-size:16px;border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--bg)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
+.consent input{margin-top:3px;width:18px;height:18px;accent-color:var(--gold);flex:none}
+.msg.err{color:var(--leak)} .msg.ok{color:var(--ok)}
+.foot{font-size:12px;color:var(--muted);margin-top:18px}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:9;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion: reduce){ .fill,.toast{transition:none} .bump{animation:none} }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ================= RAIO-X (primeiro uso) ================= -->
+  <section id="v-rx" hidden>
+    <div class="top"><span class="brand">MIDΛS Vision</span><span class="chip-date" id="rx-count">1 de 3</span></div>
+    <div class="progress" aria-hidden="true"><span id="p1"></span><span id="p2"></span><span id="p3"></span></div>
+
+    <div id="rx1" class="stack">
+      <div>
+        <h1>Quanto a sua clínica vaza por ano?</h1>
+        <p class="lede">Três perguntas rápidas. Os números ficam só no seu celular.</p>
+      </div>
+      <div class="card stack">
+        <div class="q">
+          <label for="fat">Quanto a clínica fatura por mês?</label>
+          <div class="money"><span>R$</span><input id="fat" inputmode="numeric" autocomplete="off" aria-describedby="fat-h"></div>
+          <div class="help" id="fat-h">Um valor aproximado já serve.</div>
+        </div>
+        <div class="q">
+          <span class="lbl" id="hrs-l">Quantas horas de atendimento por mês?</span>
+          <div class="stepper" data-step="10" data-min="10" data-max="2000"><button type="button" aria-label="Menos 10 horas">−</button><input id="hrs" inputmode="numeric" aria-labelledby="hrs-l"><button type="button" aria-label="Mais 10 horas">+</button></div>
+          <div class="help">Soma de todos os profissionais. 1 cadeira, 7 h por dia, 20 dias = 140 h.</div>
+        </div>
+        <div class="q">
+          <span class="lbl">Quanto dura um horário, em média?</span>
+          <div class="chips" id="dur" role="group" aria-label="Duração do horário"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="rx2" class="stack" hidden>
+      <div>
+        <h1>Quanto vale cada paciente?</h1>
+        <p class="lede">É isso que mede o tamanho de cada torneira.</p>
+      </div>
+      <div class="card stack">
+        <div class="q">
+          <label for="tic">Ticket médio de um tratamento fechado</label>
+          <div class="money"><span>R$</span><input id="tic" inputmode="numeric" autocomplete="off"></div>
+        </div>
+        <div class="q">
+          <label for="cns">Valor da primeira consulta ou avaliação</label>
+          <div class="money"><span>R$</span><input id="cns" inputmode="numeric" autocomplete="off"></div>
+          <div class="help">Se a avaliação é gratuita, use o valor da primeira sessão.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="rx3" class="stack" hidden>
+      <div>
+        <h1>E num mês normal?</h1>
+        <p class="lede">Conte só o que não foi reposto nem recuperado.</p>
+      </div>
+      <div class="card stack">
+        <div class="q">
+          <span class="lbl" id="fal-l">Faltas sem reposição</span>
+          <div class="stepper" data-step="1" data-min="0" data-max="500"><button type="button" aria-label="Menos uma">−</button><input id="fal" inputmode="numeric" aria-labelledby="fal-l"><button type="button" aria-label="Mais uma">+</button></div>
+        </div>
+        <div class="q">
+          <span class="lbl" id="orc-l">Orçamentos que ficaram sem retorno</span>
+          <div class="stepper" data-step="1" data-min="0" data-max="500"><button type="button" aria-label="Menos um">−</button><input id="orc" inputmode="numeric" aria-labelledby="orc-l"><button type="button" aria-label="Mais um">+</button></div>
+          <div class="help">Com um retorno bem feito, quantos fechariam?</div>
+          <div class="chips" id="pfe" role="group" aria-label="Quantos orçamentos fechariam"></div>
+        </div>
+        <div class="q">
+          <span class="lbl" id="msg-l">Conversas no WhatsApp sem resposta no mesmo dia</span>
+          <div class="stepper" data-step="5" data-min="0" data-max="2000"><button type="button" aria-label="Menos cinco">−</button><input id="msg" inputmode="numeric" aria-labelledby="msg-l"><button type="button" aria-label="Mais cinco">+</button></div>
+          <div class="help">Delas, quantas virariam consulta?</div>
+          <div class="chips" id="pcv" role="group" aria-label="Quantas conversas virariam consulta"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAUDO ================= -->
+  <section id="v-laudo" class="stack" hidden>
+    <div class="top"><span class="brand">MIDΛS Vision</span><span class="chip-date" id="laudo-date"></span></div>
+    <div class="card" id="laudo">
+      <div class="small" style="text-transform:uppercase;letter-spacing:.06em">Laudo do vazamento</div>
+      <div class="big" id="annual"></div>
+      <p class="lede">por ano, ou <strong id="monthly"></strong> por mês. Cada hora de agenda vale <strong id="rate"></strong>.</p>
+      <canvas id="drip" aria-hidden="true"></canvas>
+      <div class="bars" id="bars" style="margin-top:12px"></div>
+    </div>
+    <div class="card tip"><div class="k">Por onde começar</div><p id="tip"></p></div>
+    <div class="card">
+      <h2>Fechando só 30% disso</h2>
+      <p style="margin:6px 0 0"><span class="gain" id="gain"></span> <span class="small">a mais no ano, sem um paciente novo vindo de anúncio.</span></p>
+    </div>
+    <div class="card cta">
+      <h2>Agora feche as torneiras, um dia de cada vez</h2>
+      <p class="lede">Registre o que escapou e o que você salvou em 10 segundos por dia. O painel soma a semana e o mês e diz onde agir.</p>
+      <button class="btn gold block" id="go-today" type="button">Começar o painel do dia</button>
+    </div>
+    <div class="card cta">
+      <h2>Uma torneira por semana, no seu feed</h2>
+      <p class="lede">No <span class="handle">@midas_vision_</span> a gente mostra como fechar cada uma na prática.</p>
+      <a class="btn block" id="follow" href="https://www.instagram.com/midas_vision_/" target="_blank" rel="noopener">Seguir o @midas_vision_</a>
+    </div>
+    <div class="card cta lead" id="lead" hidden>
+      <h2>Receber o plano de correção no WhatsApp</h2>
+      <p class="lede">Opcional. A equipe MIDΛS Vision olha o seu laudo e manda o primeiro passo.</p>
+      <form id="leadForm" class="stack" novalidate>
+        <input id="nome" type="text" autocomplete="name" maxlength="80" placeholder="Seu nome" aria-label="Seu nome">
+        <input id="zap" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="WhatsApp com DDD" aria-label="WhatsApp com DDD">
+        <label class="consent"><input id="okc" type="checkbox"><span>Autorizo a MIDΛS Vision a usar meu nome, WhatsApp e o resultado deste laudo para falar comigo sobre o plano de correção, conforme a LGPD. Posso pedir a exclusão quando quiser.</span></label>
+        <button class="btn block" id="send" type="submit">Quero o plano no WhatsApp</button>
+        <div class="msg small" id="leadMsg" role="status"></div>
+      </form>
+    </div>
+    <div class="card cta">
+      <h2>Prefere falar direto?</h2>
+      <p class="lede">Mande no direct do <span class="handle">@midas_vision_</span> com a palavra VAZAMENTO e a gente responde com o primeiro passo para o seu caso.</p>
+      <textarea id="share" rows="3" readonly aria-label="Texto para mandar no direct"></textarea>
+      <button class="btn ghost block" id="copy" type="button">Copiar texto para o direct</button>
+      <div class="ok-msg" id="copied" role="status"></div>
+    </div>
+    <p class="foot">Conta simplificada para dar uma ordem de grandeza. Não desconta custos nem encaixes que você já faz.</p>
+  </section>
+
+  <!-- ================= HOJE ================= -->
+  <section id="v-hoje" class="stack" hidden>
+    <div class="top"><span class="brand">MIDΛS Vision</span><span class="chip-date" id="streak-mini"></span></div>
+    <div class="daybar">
+      <button type="button" id="prev" aria-label="Dia anterior">‹</button>
+      <div class="d"><b id="day-name"></b><span class="small" id="day-date"></span></div>
+      <button type="button" id="next" aria-label="Próximo dia">›</button>
+    </div>
+    <div class="hero">
+      <div class="box leak"><small>Escapou</small><b id="h-leak"></b></div>
+      <div class="box save"><small>Você salvou</small><b id="h-save"></b></div>
+    </div>
+    <div class="card">
+      <div class="seg" role="group" aria-label="O que registrar">
+        <button type="button" id="m-leak" aria-pressed="true">O que escapou</button>
+        <button type="button" id="m-save" aria-pressed="false">O que eu salvei</button>
+      </div>
+      <div id="counters" style="margin-top:8px"></div>
+    </div>
+    <div class="action">
+      <span class="k" id="act-k">Ação de hoje</span>
+      <p id="act"></p>
+      <label class="check"><input type="checkbox" id="act-done"> Feito</label>
+    </div>
+    <p class="small" id="week-line"></p>
+  </section>
+
+  <!-- ================= HISTÓRICO ================= -->
+  <section id="v-hist" class="stack" hidden>
+    <div class="top"><span class="brand">MIDΛS Vision</span><span class="chip-date">Seu histórico</span></div>
+    <h1>Como estão as torneiras</h1>
+    <div class="totals">
+      <div class="box"><small>Escapou na semana</small><b class="r" id="t-wl"></b></div>
+      <div class="box"><small>Salvou na semana</small><b class="g" id="t-ws"></b></div>
+      <div class="box"><small>Escapou no mês</small><b class="r" id="t-ml"></b></div>
+      <div class="box"><small>Salvou no mês</small><b class="g" id="t-ms"></b></div>
+    </div>
+    <div class="card stack">
+      <h2>Últimos 14 dias</h2>
+      <div class="chart" id="chart" role="img" aria-label="Gráfico dos últimos 14 dias"></div>
+      <div class="legend"><span>Escapou</span><span class="g">Salvou</span></div>
+    </div>
+    <div class="card stack">
+      <h2>Onde mais vaza neste mês</h2>
+      <div class="bars" id="m-bars"></div>
+      <p class="small" id="m-tip"></p>
+    </div>
+    <div class="card streak"><b id="streak"></b><span id="streak-t"></span></div>
+    <div class="card stack">
+      <h2>Ajustes</h2>
+      <button class="btn ghost block" id="redo" type="button">Refazer o Raio-X da clínica</button>
+      <button class="btn link" id="wipe" type="button">Apagar os dados deste celular</button>
+      <p class="small">Tudo o que você registra fica só neste aparelho. Não tem conta nem cadastro.</p>
+    </div>
+    <div class="card cta">
+      <h2>Quer ajuda para fechar a maior torneira?</h2>
+      <p class="lede">Mande no direct do <span class="handle">@midas_vision_</span> a palavra VAZAMENTO.</p>
+      <a class="btn block" href="https://www.instagram.com/midas_vision_/" target="_blank" rel="noopener" data-follow>Abrir o @midas_vision_</a>
+    </div>
+    <p class="foot">Valores estimados com os números do seu Raio-X. Esta página usa o pixel da Meta para contar visitas e uso, sem os números que você digita. © MIDΛS Vision</p>
+  </section>
+</div>
+
+<!-- Barra fixa do Raio-X -->
+<div class="est" id="est" hidden>
+  <div class="in">
+    <div class="val"><small>Vazamento estimado</small><b id="est-v"></b><span class="small"> /ano</span></div>
+    <button class="btn ghost" id="back" type="button" aria-label="Voltar">‹</button>
+    <button class="btn" id="nextq" type="button">Continuar</button>
+  </div>
+</div>
+
+<!-- Navegação -->
+<nav class="nav" id="nav" hidden aria-label="Navegação">
+  <div class="in">
+    <button type="button" data-go="hoje"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-3 4-6 7.2-6 11a6 6 0 0 0 12 0c0-3.8-3-7-6-11z"/></svg>Hoje</button>
+    <button type="button" data-go="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Histórico</button>
+    <button type="button" data-go="laudo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Raio-X</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* Destino dos contatos do WhatsApp. Vazio = bloco escondido. Ex.: webhook de entrada de um workflow do CRM (POST JSON). */
+var LEAD_ENDPOINT = '';
+
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id)};
+  var brl=function(v){return (Math.round(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})};
+  var px=function(name){ try{ if(window.fbq) fbq('trackCustom',name); }catch(e){} };
+
+  /* ---------- Armazenamento local ---------- */
+  var KEY='midas-raiox-v2';
+  var DEF={cfg:{fat:80000,hrs:140,dur:1,tic:1500,cns:300,fal:12,orc:10,msg:30,pfe:.2,pcv:.1},done:false,days:{},flags:{}};
+  var S;
+  try{ S=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ S=null; }
+  if(!S||!S.cfg){ S=JSON.parse(JSON.stringify(DEF)); }
+  S.days=S.days||{}; S.flags=S.flags||{};
+  for(var k in DEF.cfg){ if(typeof S.cfg[k]!=='number'||isNaN(S.cfg[k])) S.cfg[k]=DEF.cfg[k]; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+  /* ---------- Contas ---------- */
+  function unit(){
+    var c=S.cfg, rate=c.fat/Math.max(c.hrs,1);
+    return {rate:rate, fal:c.dur*rate, orc:c.tic*c.pfe, msg:c.cns*c.pcv};
+  }
+  var TAPS=[
+    {id:'fal',name:'Faltas sem reposição',short:'faltas',one:'Falta sem reposição',oneSave:'Falta reposta ou remarcada',hint:'Horário vazio que ninguém ocupou',hintSave:'Encaixe, remarcação ou lista de espera',
+     acts:['Mande a confirmação de amanhã até as 16 h e deixe trocar de horário com uma resposta só.','Ligue para quem faltou hoje e remarque antes de desligar.','Monte uma lista de 5 pacientes que querem antecipar e chame quando abrir horário.','Confirme 48 h antes os horários mais longos da semana.']},
+    {id:'orc',name:'Orçamentos sem retorno',short:'orçamentos parados',one:'Orçamento passou de 48 h sem retorno',oneSave:'Orçamento retomado ou fechado',hint:'Ninguém ligou nem mandou mensagem',hintSave:'Alguém fez o retorno',
+     acts:['Escolha 3 orçamentos parados e ligue hoje perguntando o que ficou de dúvida.','Defina quem é o dono de cada orçamento aberto e o prazo de 48 h para o retorno.','Mande um áudio curto para os orçamentos da semana explicando o próximo passo do tratamento.','Para quem parou por preço, ofereça outra forma de pagamento.']},
+    {id:'msg',name:'Mensagens esquecidas',short:'mensagens esquecidas',one:'Conversa ficou sem resposta no dia',oneSave:'Conversa respondida no mesmo dia',hint:'Pediu preço ou horário e esperou',hintSave:'Respondeu antes de fechar a clínica',
+     acts:['Separe 15 minutos no fim do dia para zerar o WhatsApp.','Responda primeiro quem pediu preço ou horário: é quem está mais perto de marcar.','Crie 3 respostas rápidas para as perguntas que mais chegam.','Deixe uma mensagem automática dizendo em quanto tempo a clínica responde.']}
+  ];
+  function monthlyEst(){ var u=unit(),c=S.cfg; return [c.fal*u.fal, c.orc*u.orc, c.msg*u.msg]; }
+  function dayVals(d){ var u=unit(),r=S.days[d]||{}; var l=r.l||[0,0,0], s=r.s||[0,0,0];
+    return {l:[l[0]*u.fal,l[1]*u.orc,l[2]*u.msg], s:[s[0]*u.fal,s[1]*u.orc,s[2]*u.msg]}; }
+  var sum=function(a){return a[0]+a[1]+a[2]};
+
+  /* ---------- Datas ---------- */
+  function key(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function addDays(d,n){ var x=new Date(d); x.setDate(x.getDate()+n); return x; }
+  var TODAY=new Date(); TODAY.setHours(12,0,0,0);
+  var cur=new Date(TODAY);
+  function weekStart(d){ var x=new Date(d); var w=(x.getDay()+6)%7; return addDays(x,-w); }
+  function rangeSum(from,to){ var L=[0,0,0],Sv=[0,0,0]; for(var d=new Date(from); d<=to; d=addDays(d,1)){ var v=dayVals(key(d)); for(var i=0;i<3;i++){L[i]+=v.l[i];Sv[i]+=v.s[i];} } return {l:L,s:Sv}; }
+  function hasData(k){ var r=S.days[k]; return !!(r&&((r.l&&sum(r.l)>0)||(r.s&&sum(r.s)>0)||r.a)); }
+  function streak(){ var n=0, d=new Date(TODAY); if(!hasData(key(d))) d=addDays(d,-1); while(hasData(key(d))){ n++; d=addDays(d,-1);} return n; }
+
+  /* ---------- Toast ---------- */
+  var tt; function toast(t){ var el=$('toast'); el.textContent=t; el.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){el.classList.remove('on')},1600); }
+
+  /* ---------- Views ---------- */
+  var view='';
+  function show(v){
+    view=v;
+    ['rx','laudo','hoje','hist'].forEach(function(n){ $('v-'+n).hidden=(n!==v); });
+    $('est').hidden=(v!=='rx'); $('nav').hidden=(v==='rx');
+    $('app').classList.toggle('nonav',v==='rx');
+    document.querySelectorAll('.nav button').forEach(function(b){ if(b.dataset.go===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+    if(v==='laudo') renderLaudo();
+    if(v==='hoje') renderHoje();
+    if(v==='hist') renderHist();
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('.nav button').forEach(function(b){ b.addEventListener('click',function(){ show(b.dataset.go); }); });
+
+  /* ---------- Raio-X: entradas ---------- */
+  function fmtNum(n){ return (Math.round(n)||0).toLocaleString('pt-BR'); }
+  function bindMoney(id){
+    var el=$(id); el.value=fmtNum(S.cfg[id]);
+    el.addEventListener('input',function(){ var v=parseInt(el.value.replace(/\D/g,''),10)||0; if(v>99999999) v=99999999; S.cfg[id]=v; el.value=v?fmtNum(v):''; updEst(); });
+    el.addEventListener('focus',function(){ setTimeout(function(){ try{el.select()}catch(e){} },0); });
+  }
+  function bindStepper(id){
+    var el=$(id), box=el.parentNode, st=+box.dataset.step, mn=+box.dataset.min, mx=+box.dataset.max, b=box.querySelectorAll('button');
+    function set(v){ v=Math.max(mn,Math.min(mx,Math.round(v)||0)); S.cfg[id]=v; el.value=v; updEst(); }
+    el.value=S.cfg[id];
+    b[0].addEventListener('click',function(){ set(S.cfg[id]-st); });
+    b[1].addEventListener('click',function(){ set(S.cfg[id]+st); });
+    el.addEventListener('input',function(){ var v=parseInt(el.value.replace(/\D/g,''),10); if(!isNaN(v)){ S.cfg[id]=Math.min(mx,v); updEst(); } });
+    el.addEventListener('blur',function(){ set(parseInt(el.value,10)||0); });
+    el.addEventListener('focus',function(){ setTimeout(function(){ try{el.select()}catch(e){} },0); });
+  }
+  function bindChips(id,opts){
+    var box=$(id);
+    box.innerHTML=opts.map(function(o){ return '<button type="button" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('');
+    function paint(){ box.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(Math.abs(+b.dataset.v-S.cfg[id])<1e-9)); }); }
+    box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; S.cfg[id]=+b.dataset.v; paint(); updEst(); });
+    paint();
+  }
+  bindMoney('fat'); bindMoney('tic'); bindMoney('cns');
+  bindStepper('hrs'); bindStepper('fal'); bindStepper('orc'); bindStepper('msg');
+  bindChips('dur',[[.5,'30 min'],[.75,'45 min'],[1,'1 h'],[1.5,'1h30'],[2,'2 h']]);
+  bindChips('pfe',[[.1,'1 em 10'],[.2,'2 em 10'],[.3,'3 em 10'],[.4,'4 em 10']]);
+  bindChips('pcv',[[.05,'1 em 20'],[.1,'1 em 10'],[.2,'2 em 10'],[.3,'3 em 10']]);
+
+  var step=1;
+  function updEst(){ $('est-v').textContent=brl(sum(monthlyEst())*12); save(); }
+  function goStep(n){
+    step=n;
+    for(var i=1;i<=3;i++){ $('rx'+i).hidden=(i!==n); $('p'+i).classList.toggle('on',i<=n); }
+    $('rx-count').textContent=n+' de 3';
+    $('back').hidden=(n===1);
+    $('nextq').textContent=(n===3?'Ver meu laudo':'Continuar');
+    updEst(); window.scrollTo(0,0);
+  }
+  $('nextq').addEventListener('click',function(){
+    if(step===1 && (!S.cfg.fat||!S.cfg.hrs)){ toast('Preencha faturamento e horas'); return; }
+    if(step<3){ goStep(step+1); return; }
+    S.done=true; save();
+    if(!S.flags.diag){ S.flags.diag=1; save(); }
+    px('DiagnosticoConcluido');
+    show('laudo');
+  });
+  $('back').addEventListener('click',function(){ if(step>1) goStep(step-1); });
+  $('redo').addEventListener('click',function(){ goStep(1); show('rx'); });
+
+  /* ---------- Laudo ---------- */
+  function topIdx(a){ return a.reduce(function(b,v,i){return v>a[b]?i:b},0); }
+  function renderBars(el,vals,suffix){
+    var max=Math.max(vals[0],vals[1],vals[2],1), ti=topIdx(vals), tot=sum(vals);
+    el.innerHTML=TAPS.map(function(t,i){ return '<div class="bar'+(i===ti&&tot>0?' top':'')+'"><div class="l"><span>'+t.name+'</span><b>'+brl(vals[i])+suffix+'</b></div><div class="track"><div class="fill" style="width:'+(vals[i]/max*100).toFixed(1)+'%"></div></div></div>'; }).join('');
+  }
+  var annual=0;
+  function renderLaudo(){
+    var m=monthlyEst(), u=unit(), ti=topIdx(m);
+    annual=sum(m)*12;
+    $('laudo-date').textContent=TODAY.toLocaleDateString('pt-BR');
+    $('annual').textContent=brl(annual);
+    $('monthly').textContent=brl(sum(m));
+    $('rate').textContent=brl(u.rate);
+    renderBars($('bars'),m.map(function(v){return v*12}),'/ano');
+    $('tip').textContent=sum(m)>0?('A maior torneira é '+TAPS[ti].short+'. '+TAPS[ti].acts[0]):'Com esses números, nenhuma torneira aberta. Confira se não ficou nada de fora.';
+    $('gain').textContent=brl(annual*.3);
+    $('share').value='VAZAMENTO. Fiz o raio-x: minha clínica deixa escapar cerca de '+brl(annual)+' por ano, e a maior torneira é '+TAPS[ti].short+'. Por onde começo?';
+    sizeCanvas();
+  }
+  $('go-today').addEventListener('click',function(){ show('hoje'); });
+  $('follow').addEventListener('click',function(){ px('SeguirInstagram'); });
+  document.querySelectorAll('[data-follow]').forEach(function(a){ a.addEventListener('click',function(){ px('SeguirInstagram'); }); });
+  $('copy').addEventListener('click',function(){
+    var t=$('share');
+    function sel(){ t.focus(); t.select(); $('copied').textContent='Texto selecionado. Copie e cole no direct.'; }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t.value).then(function(){ $('copied').textContent='Copiado. Agora é só colar no direct.'; },sel); } else sel();
+    px('CopiouDirect');
+  });
+
+  /* Gotas: a quantidade acompanha o tamanho do vazamento */
+  var cv=$('drip'), ctx=cv.getContext('2d'), reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, drops=[], W=0, H=0;
+  function sizeCanvas(){ var r=cv.getBoundingClientRect(); if(!r.width) return; var d=window.devicePixelRatio||1; W=r.width; H=r.height; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0); }
+  addEventListener('resize',sizeCanvas);
+  function color(){ return getComputedStyle(document.documentElement).getPropertyValue('--gold').trim()||'#A87A12'; }
+  (function frame(){
+    if(view==='laudo'&&W){
+      ctx.clearRect(0,0,W,H); ctx.fillStyle=color();
+      for(var i=0;i<3;i++){ var x=W*(i+1)/4; ctx.fillRect(x-10,0,20,6); ctx.fillRect(x-3,6,6,6); }
+      var pool=Math.min(1,annual/300000); ctx.globalAlpha=.35; ctx.fillRect(0,H-4-pool*14,W,4+pool*14); ctx.globalAlpha=1;
+      if(!reduce&&Math.random()<Math.min(.5,.03+annual/400000)){ var k=Math.floor(Math.random()*3); drops.push({x:W*(k+1)/4,y:14,v:0}); }
+      drops.forEach(function(d){ d.v+=.25; d.y+=d.v; ctx.beginPath(); ctx.ellipse(d.x,d.y,3,4.5,0,0,Math.PI*2); ctx.fill(); });
+      drops=drops.filter(function(d){ return d.y<H-6; });
+      if(reduce){ for(var j=0;j<3;j++){ ctx.beginPath(); ctx.ellipse(W*(j+1)/4,30,3,4.5,0,0,Math.PI*2); ctx.fill(); } }
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ---------- Hoje ---------- */
+  var mode='l';
+  var DOW=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  function rec(k){ if(!S.days[k]) S.days[k]={l:[0,0,0],s:[0,0,0]}; var r=S.days[k]; r.l=r.l||[0,0,0]; r.s=r.s||[0,0,0]; return r; }
+  function setMode(m){ mode=m; $('m-leak').setAttribute('aria-pressed',String(m==='l')); $('m-save').setAttribute('aria-pressed',String(m==='s')); $('counters').classList.toggle('mode-save',m==='s'); renderCounters(); }
+  $('m-leak').addEventListener('click',function(){ setMode('l'); });
+  $('m-save').addEventListener('click',function(){ setMode('s'); });
+  function renderCounters(){
+    var k=key(cur), r=S.days[k]||{}, arr=(r[mode]||[0,0,0]), u=unit(), uv=[u.fal,u.orc,u.msg];
+    $('counters').innerHTML=TAPS.map(function(t,i){
+      return '<div class="counter"><div><div class="t">'+(mode==='l'?t.one:t.oneSave)+'</div><div class="s">'+(mode==='l'?t.hint:t.hintSave)+' · '+brl(uv[i])+' cada</div></div>'+
+        '<div class="ctl"><button type="button" data-i="'+i+'" data-d="-1" aria-label="Tirar um: '+t.one+'">−</button><output id="c'+i+'">'+arr[i]+'</output><button type="button" class="plus" data-i="'+i+'" data-d="1" aria-label="Somar um: '+t.one+'">+</button></div></div>';
+    }).join('');
+  }
+  $('counters').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-i]'); if(!b) return;
+    var k=key(cur), r=rec(k), i=+b.dataset.i, d=+b.dataset.d;
+    r[mode][i]=Math.max(0,r[mode][i]+d); save();
+    var o=$('c'+i); o.textContent=r[mode][i]; o.classList.remove('bump'); void o.offsetWidth; o.classList.add('bump');
+    if(d>0 && !S.flags['reg-'+k]){ S.flags['reg-'+k]=1; save(); px('RegistroDiario'); }
+    if(d>0 && mode==='s') toast('Boa. '+brl([unit().fal,unit().orc,unit().msg][i])+' salvos');
+    if(navigator.vibrate&&d>0){ try{navigator.vibrate(8)}catch(e){} }
+    renderSummary();
+  });
+  function pickAction(){
+    var w=rangeSum(weekStart(cur),cur).l, ti=sum(w)>0?topIdx(w):topIdx(monthlyEst());
+    var doy=Math.floor((cur-new Date(cur.getFullYear(),0,1))/864e5);
+    return {t:TAPS[ti], a:TAPS[ti].acts[doy%TAPS[ti].acts.length]};
+  }
+  function renderSummary(){
+    var k=key(cur), v=dayVals(k);
+    $('h-leak').textContent=brl(sum(v.l)); $('h-save').textContent=brl(sum(v.s));
+    var w=rangeSum(weekStart(cur),cur);
+    $('week-line').textContent='Na semana: escapou '+brl(sum(w.l))+' e você salvou '+brl(sum(w.s))+'.';
+    var s=streak(); $('streak-mini').textContent=s>1?(s+' dias seguidos'):'';
+  }
+  function renderHoje(){
+    var k=key(cur), isToday=(k===key(TODAY)), diff=Math.round((TODAY-cur)/864e5);
+    $('day-name').textContent=isToday?'Hoje':(diff===1?'Ontem':DOW[cur.getDay()]);
+    $('day-date').textContent=cur.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});
+    $('next').disabled=isToday; $('prev').disabled=diff>=60;
+    var p=pickAction(); $('act-k').textContent='Ação de '+(isToday?'hoje':'do dia')+' · '+p.t.short; $('act').textContent=p.a;
+    $('act-done').checked=!!(S.days[k]&&S.days[k].a);
+    renderCounters(); renderSummary();
+  }
+  $('act-done').addEventListener('change',function(){ var r=rec(key(cur)); r.a=$('act-done').checked?1:0; save(); if(r.a) toast('Torneira um pouco mais fechada'); renderSummary(); });
+  $('prev').addEventListener('click',function(){ cur=addDays(cur,-1); renderHoje(); });
+  $('next').addEventListener('click',function(){ if(key(cur)!==key(TODAY)){ cur=addDays(cur,1); renderHoje(); } });
+
+  /* ---------- Histórico ---------- */
+  function renderHist(){
+    var w=rangeSum(weekStart(TODAY),TODAY), m=rangeSum(new Date(TODAY.getFullYear(),TODAY.getMonth(),1,12),TODAY);
+    $('t-wl').textContent=brl(sum(w.l)); $('t-ws').textContent=brl(sum(w.s));
+    $('t-ml').textContent=brl(sum(m.l)); $('t-ms').textContent=brl(sum(m.s));
+    var days=[], max=1;
+    for(var i=13;i>=0;i--){ var d=addDays(TODAY,-i), v=dayVals(key(d)); days.push({d:d,l:sum(v.l),s:sum(v.s)}); max=Math.max(max,sum(v.l),sum(v.s)); }
+    $('chart').innerHTML=days.map(function(x,i){ return '<div class="c'+(i===13?' today':'')+'" title="'+x.d.toLocaleDateString('pt-BR')+': escapou '+brl(x.l)+', salvou '+brl(x.s)+'"><i style="height:'+(x.l/max*48).toFixed(1)+'%"></i><i class="g" style="height:'+(x.s/max*48).toFixed(1)+'%"></i><em>'+x.d.getDate()+'</em></div>'; }).join('');
+    var any=sum(m.l)>0;
+    renderBars($('m-bars'),any?m.l:monthlyEst(),any?'':'/mês est.');
+    var ti=topIdx(any?m.l:monthlyEst());
+    $('m-tip').textContent=any?('Neste mês, a maior torneira é '+TAPS[ti].short+'. '+TAPS[ti].acts[1]):'Ainda sem registros neste mês. As barras mostram a estimativa do seu Raio-X.';
+    var s=streak(); $('streak').textContent=s; $('streak-t').textContent=s===1?'dia registrando. Volte amanhã para manter a sequência.':(s>1?'dias seguidos registrando. Quem mede, fecha a torneira.':'dias seguidos. Registre hoje para começar.');
+  }
+  $('wipe').addEventListener('click',function(){
+    if(!confirm('Apagar o Raio-X e todo o histórico deste celular?')) return;
+    S=JSON.parse(JSON.stringify(DEF)); try{ localStorage.removeItem(KEY); }catch(e){}
+    ['fat','tic','cns'].forEach(function(id){ $(id).value=fmtNum(S.cfg[id]); });
+    ['hrs','fal','orc','msg'].forEach(function(id){ $(id).value=S.cfg[id]; });
+    ['dur','pfe','pcv'].forEach(function(id){ $(id).querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed',String(Math.abs(+b.dataset.v-S.cfg[id])<1e-9)); }); });
+    goStep(1); show('rx');
+  });
+
+  /* ---------- WhatsApp opcional (nunca trava o laudo) ---------- */
+  if(LEAD_ENDPOINT){
+    $('lead').hidden=false;
+    $('leadForm').addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var msg=$('leadMsg'), digits=$('zap').value.replace(/\D/g,'');
+      msg.className='msg small';
+      if(digits.length<10||digits.length>13){ msg.className='msg small err'; msg.textContent='Confira o WhatsApp com DDD.'; return; }
+      if(!$('okc').checked){ msg.className='msg small err'; msg.textContent='Marque a autorização para a gente poder falar com você.'; return; }
+      $('send').disabled=true; msg.textContent='Enviando...';
+      var m=monthlyEst();
+      fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        nome:$('nome').value.trim(), whatsapp:digits, origem:'diagnostico.midasvision.com.br',
+        vazamento_anual:Math.round(sum(m)*12), vazamento_mensal:Math.round(sum(m)), maior_torneira:TAPS[topIdx(m)].short,
+        consentimento_lgpd:true, data:new Date().toISOString()
+      })}).then(function(r){ if(!r.ok) throw 0; msg.className='msg small ok'; msg.textContent='Recebido. A equipe MIDΛS Vision chama você no WhatsApp.'; try{fbq('track','Lead')}catch(e){} })
+      .catch(function(){ $('send').disabled=false; msg.className='msg small err'; msg.textContent='Não deu para enviar agora. Tente de novo ou mande no direct.'; });
+    });
+  }
+
+  /* ---------- Início ---------- */
+  goStep(1);
+  var hash=(location.hash||'').replace('#','');
+  if(S.done){ show(hash==='laudo'||hash==='hist'?hash:'hoje'); }
+  else { show('rx'); }
+})();
+</script>
+</body>
+</html>
